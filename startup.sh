@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo -e "\tMYSQL_USER: $MYSQL_USER"
+echo -e "\tMYSQL_PASSWORD: $MYSQL_PASSWORD"
+
 if [ ! -d "/run/mysqld" ]; then
   mkdir -p /run/mysqld
 fi
@@ -24,7 +27,6 @@ cat << EOF > $tfile
 USE mysql;
 FLUSH PRIVILEGES;
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD("$MYSQL_ROOT_PASSWORD");
-DROP USER 'root'@'0.0.0.0';
 CREATE USER 'root'@'0.0.0.0' IDENTIFIED BY "$MYSQL_ROOT_PASSWORD";
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY "$MYSQL_ROOT_PASSWORD" WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'0.0.0.0' IDENTIFIED BY "$MYSQL_ROOT_PASSWORD" WITH GRANT OPTION;
