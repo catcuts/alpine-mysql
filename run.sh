@@ -39,6 +39,7 @@ echo -e "\t$MYSQL_CTNER restarting ..."
 
 docker run --name $MYSQL_CTNER \
 -v $MYSQL_PWD:/app \
+-v $MYSQL_DATA:/var/lib/mysql/ \
 -e MYSQL_DATABASE=admin \
 -e MYSQL_USER=pi \
 -e MYSQL_PASSWORD=raspberry \
