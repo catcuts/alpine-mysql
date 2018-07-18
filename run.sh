@@ -5,8 +5,9 @@ MYSQL_IMG=
 MYSQL_PWD=$(pwd)
 MYSQL_DATA=
 MYSQL_PORT=3306
+MYSQL_TIMEOUT=200
 
-while getopts "c:i:w:d:p:" arg  # 选项后面的冒号表示该选项需要参数
+while getopts "c:i:w:d:p:t:" arg  # 选项后面的冒号表示该选项需要参数
 do
     case $arg in
         c)
@@ -23,6 +24,9 @@ do
             ;;
         p)
             MYSQL_PORT=$OPTARG  # 端口名
+            ;;
+        t)
+            MYSQL_TIMEOUT=$OPTARG  # 启动超时
             ;;
     esac
 done
@@ -60,7 +64,7 @@ echo -e "\t$MYSQL_CTNER restarted. waiting init. to be finished ..."
 MYSQL_HOST=$(docker inspect --format='{{.NetworkSettings.Gateway}}' $MYSQL_CTNER)
 
 checking_interval=0.1
-checking_timeout=200
+checking_timeout=$MYSQL_TIMEOUT
 checking_not_ok=1
 
 while [ checking_not_ok ]; do
